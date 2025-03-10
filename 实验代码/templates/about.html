@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask应用 - 关于</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>关于我们</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">首页</a></li>
+                <li><a href="{{ url_for('about') }}">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section>
+            <h2>关于本应用</h2>
+            <p>这是一个使用Flask框架构建的简单Web应用示例。</p>
+            <p>Flask是一个轻量级的Python Web框架，易于学习和使用。</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Flask应用示例</p>
+    </footer>
+</body>
+</html>

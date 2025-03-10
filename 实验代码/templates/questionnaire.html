@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>茶饮推荐 - 问卷调查</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        .checkbox-item input {
+            margin-right: 0.5rem;
+        }
+        button[type="submit"] {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #3367d6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>茶饮推荐系统</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">首页</a></li>
+                <li><a href="{{ url_for('questionnaire') }}">问卷调查</a></li>
+                <li><a href="{{ url_for('about') }}">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section>
+            <h2>个人健康问卷</h2>
+            <p>请填写以下信息，我们将为您推荐最适合的茶饮。</p>
+            
+            <form action="{{ url_for('questionnaire') }}" method="post">
+                <div class="form-group">
+                    <label for="age">年龄</label>
+                    <input type="number" id="age" name="age" min="1" max="120" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">性别</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">请选择</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>症状（可多选）</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom1" name="symptoms" value="疲劳">
+                            <label for="symptom1">疲劳</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom2" name="symptoms" value="注意力不集中">
+                            <label for="symptom2">注意力不集中</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom3" name="symptoms" value="肥胖">
+                            <label for="symptom3">肥胖</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom4" name="symptoms" value="消化不良">
+                            <label for="symptom4">消化不良</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom5" name="symptoms" value="上火">
+                            <label for="symptom5">上火</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom6" name="symptoms" value="眼睛疲劳">
+                            <label for="symptom6">眼睛疲劳</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom7" name="symptoms" value="头痛">
+                            <label for="symptom7">头痛</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom8" name="symptoms" value="免疫力低下">
+                            <label for="symptom8">免疫力低下</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taste_preference">口味偏好</label>
+                    <select id="taste_preference" name="taste_preference">
+                        <option value="">请选择</option>
+                        <option value="清香">清香</option>
+                        <option value="醇厚">醇厚</option>
+                        <option value="甘甜">甘甜</option>
+                        <option value="清淡">清淡</option>
+                        <option value="清凉">清凉</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="goals">养生目标</label>
+                    <input type="text" id="goals" name="goals" placeholder="请输入您的养生目标">
+                </div>
+                
+                <button type="submit">获取推荐</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 茶饮推荐系统</p>
+    </footer>
+</body>
+</html>

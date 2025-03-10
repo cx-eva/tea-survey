@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>茶饮推荐 - 推荐结果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* 主推茶饮卡片样式 */
+        .main-recommendation {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #4285f4;
+        }
+        
+        .main-recommendation h3 {
+            color: #4285f4;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .tea-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .detail-section {
+            margin-bottom: 1rem;
+        }
+        
+        .detail-section h4 {
+            color: #4285f4;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3rem;
+        }
+        
+        .detail-section ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+        
+        .detail-section li {
+            margin-bottom: 0.3rem;
+        }
+        
+        /* 备选茶饮横向排列 */
+        .alternative-recommendations {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .alt-recommendation-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1.2rem;
+            min-width: 250px;
+            flex: 0 0 auto;
+            border-top: 3px solid #4285f4;
+        }
+        
+        .alt-recommendation-card h3 {
+            color: #4285f4;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        
+        .recommendation-reason {
+            font-style: italic;
+            color: #666;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px dashed #eee;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        
+        .tag {
+            background-color: #f1f8ff;
+            color: #4285f4;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #3367d6;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .tea-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .alternative-recommendations {
+                padding-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>茶饮推荐系统</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">首页</a></li>
+                <li><a href="{{ url_for('questionnaire') }}">问卷调查</a></li>
+                <li><a href="{{ url_for('about') }}">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section>
+            <h2>您的个性化茶饮推荐</h2>
+            <p>根据您提供的信息，我们为您推荐以下茶饮：</p>
+            
+            {% if recommendations %}
+                <!-- 主推茶饮大卡片 -->
+                {% set main_tea = recommendations[0] %}
+                <div class="main-recommendation">
+                    <h3>{{ main_tea.name }}</h3>
+                    <p>{{ main_tea.description }}</p>
+                    
+                    <div class="tea-details">
+                        <div class="detail-section">
+                            <h4>成分</h4>
+                            <ul>
+                                {% for ingredient in tea_recommender.tea_database[main_tea.name]['ingredients'] %}
+                                    <li>{{ ingredient }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>功效</h4>
+                            <ul>
+                                {% for benefit in tea_recommender.tea_database[main_tea.name]['benefits'] %}
+                                    <li>{{ benefit }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>适合人群</h4>
+                            <ul>
+                                {% for suitable in tea_recommender.tea_database[main_tea.name]['suitable_for'] %}
+                                    <li>{{ suitable }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>口味特点</h4>
+                            <div class="tag-list">
+                                {% for taste in tea_recommender.tea_database[main_tea.name]['taste_profile'] %}
+                                    <span class="tag">{{ taste }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="recommendation-reason">推荐理由：{{ main_tea.reason }}</p>
+                </div>
+                
+                <!-- 备选茶饮横向排列 -->
+                {% if recommendations|length > 1 %}
+                    <h3>其他推荐</h3>
+                    <div class="alternative-recommendations">
+                        {% for recommendation in recommendations[1:] %}
+                            <div class="alt-recommendation-card">
+                                <h3>{{ recommendation.name }}</h3>
+                                <p>{{ recommendation.description }}</p>
+                                
+                                <div class="detail-section">
+                                    <h4>成分</h4>
+                                    <ul>
+                                        {% for ingredient in tea_recommender.tea_database[recommendation.name]['ingredients'] %}
+                                            <li>{{ ingredient }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                
+                                <div class="detail-section">
+                                    <h4>口味特点</h4>
+                                    <div class="tag-list">
+                                        {% for taste in tea_recommender.tea_database[recommendation.name]['taste_profile'] %}
+                                            <span class="tag">{{ taste }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <p class="recommendation-reason">推荐理由：{{ recommendation.reason }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>抱歉，没有找到符合您需求的茶饮推荐。请尝试调整您的问卷选项。</p>
+            {% endif %}
+            
+            <a href="{{ url_for('questionnaire') }}" class="back-button">返回问卷</a>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 茶饮推荐系统</p>
+    </footer>
+</body>
+</html>

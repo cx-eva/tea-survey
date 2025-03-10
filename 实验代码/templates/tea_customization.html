@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个性化养生茶定制</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .hero-section {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            color: #4285f4;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 1.5rem 0;
+        }
+        
+        .cta-button:hover {
+            background-color: #3367d6;
+        }
+        
+        .instructions {
+            background-color: #f1f8ff;
+            border-left: 4px solid #4285f4;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #4285f4;
+        }
+        
+        .step {
+            margin-bottom: 1rem;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>茶饮推荐系统</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">首页</a></li>
+                <li><a href="{{ url_for('questionnaire') }}">问卷调查</a></li>
+                <li><a href="{{ url_for('about') }}">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section>
+            <div class="hero-section">
+                <h1 class="hero-title">个性化养生茶定制</h1>
+                <p>根据您的体质、症状和口味偏好，为您量身定制最适合的养生茶饮</p>
+                <a href="{{ url_for('questionnaire') }}" class="cta-button">开始问卷调查</a>
+            </div>
+            
+            <div class="instructions">
+                <h3>使用说明</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <span>填写问卷：提供您的年龄、性别、症状和口味偏好等信息</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <span>获取推荐：系统将根据您的信息，从我们的茶饮数据库中筛选最适合您的茶饮</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span>查看详情：了解每种推荐茶饮的功效、适用人群和制作方法</span>
+                </div>
+                <p>我们的茶饮推荐系统基于传统中医理论和现代营养学知识，旨在为您提供科学、合理的养生茶饮建议。</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 茶饮推荐系统</p>
+    </footer>
+</body>
+</html>
